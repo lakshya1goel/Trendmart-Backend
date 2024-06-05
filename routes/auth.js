@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
+const auth = require("../middlewares/auth.js");
 
 authRouter.post("/api/signup", async (req, res) => {
     try {
@@ -69,6 +70,11 @@ authRouter.post("/verifyAccessToken", async (req, res) => {
     catch (err) {
         res.status(500).json({message: err.message || "Internal server error!"});
     }
+});
+
+authRouter.get("/getUserData", auth, async (req, res) => {
+    const user = await User.findById(req.user);
+    res.json({...user._doc, token: req.token});
 });
 
 module.exports = authRouter;
