@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../models/user");
+const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
@@ -7,7 +7,7 @@ const auth = require("../middlewares/auth.js");
 
 authRouter.post("/api/signup", async (req, res) => {
     try {
-        const { username, name, email, password } = req.body;
+        const { username, name, email, password, type } = req.body;
 
         const existingUserWithEmail = await User.findOne({email});
         if(existingUserWithEmail) {
@@ -24,7 +24,8 @@ authRouter.post("/api/signup", async (req, res) => {
             username,
             name,
             email,
-            password: hashedPass
+            password: hashedPass,
+            type
         });
 
         user = await user.save();

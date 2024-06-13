@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema({
             message: "Password should be atleast 8 characters long!"
         }
     },
-    type : {
+    type: {
         type: String,
         default: "user"
     }
